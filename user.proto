@@ -37,9 +37,9 @@ message ServiceDescriptor {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// UserService & message definitions
+// UsersService & message definitions
 
-service User {
+service Users {
     // Staffs
     rpc CreateStaff(user.CreateStaffRequest) returns (user.Id);
     rpc FindStaffs(user.FindRequest) returns (user.PaginatedStaffs);
