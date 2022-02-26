@@ -17,6 +17,6 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Compiled proto file
+# Compiled proto files
 *.ts
 
