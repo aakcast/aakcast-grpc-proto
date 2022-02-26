@@ -11,6 +11,14 @@ message Id {
     string id = 1;
 }
 
+message FindRequest {
+    optional uint32 limit = 1;
+    optional uint32 offset = 2;
+    optional string sort_field = 3;
+    optional bool asc = 4;
+    optional string keyword = 5;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // AppService & message definitions
@@ -32,15 +40,15 @@ message ServiceDescriptor {
 service User {
     // Staffs
     rpc CreateStaff(user.CreateStaffRequest) returns (user.Id);
-//    rpc ListStaffs(user.ListStaffsRequest) returns ();
+    rpc FindStaffs(user.FindRequest) returns (user.PaginatedStaffs);
     rpc GetStaff(user.Id) returns (user.Staff);
     rpc UpdateStaff(user.UpdateStaffRequest) returns (user.Empty);
     rpc DeleteStaff(user.Id) returns (user.Empty);
 
     // Sellers
     rpc CreateSeller(user.CreateSellerRequest) returns (user.Id);
-    //    rpc ListSellers(user.ListSellersRequest) returns ();
-    rpc GetSeller(user.Id) returns (user.Seller);
+    rpc FindSellers(user.FindRequest) returns (user.PaginatedSellers);
+    rpc GetSellerDetail(user.Id) returns (user.SellerDetail);
     rpc UpdateSeller(user.UpdateSellerRequest) returns (user.Empty);
     rpc SaveSellerStoreData(user.SaveSellerStoreDataRequest) returns (user.Empty);
     rpc SaveSellerContactData(user.SaveSellerContactDataRequest) returns (user.Empty);
@@ -58,15 +66,32 @@ service User {
 
 message Staff {
     string id = 1;
-    string name = 2;
-    string mobile = 3;
-    string department = 4;
-    bool is_admin = 5;
-    string joined_at = 98;
-    string deleted_at = 99;
+    string email = 2;
+    string name = 3;
+    string mobile = 4;
+    string department = 5;
+    bool is_admin = 6;
+    string created_at = 98;
+    optional string deleted_at = 99;
+}
+
+message PaginatedStaffs {
+    uint32 total = 1;
+    uint32 limit = 2;
+    uint32 offset = 3;
+    repeated Staff results = 4;
 }
 
 message Seller {
+    string id = 1;
+    string email = 2;
+    string name = 3;
+    string mobile = 4;
+    string created_at = 98;
+    optional string deleted_at = 99;
+}
+
+message SellerDetail {
     enum DataStatus {
         NONE = 0;
         SUBMITTED = 1;
@@ -75,18 +100,26 @@ message Seller {
     }
 
     string id = 1;
-    string name = 2;
-    string mobile = 3;
-    DataStatus store_data_status = 4;
-    string store_data_comment = 5;
-    DataStatus contact_data_status = 6;
-    string contact_data_comment = 7;
-    DataStatus account_data_status = 8;
-    string account_data_comment = 9;
-    DataStatus business_data_status = 10;
-    string business_data_comment = 11;
-    string joined_at = 98;
-    string deleted_at = 99;
+    string email = 2;
+    string name = 3;
+    string mobile = 4;
+    DataStatus store_data_status = 5;
+    string store_data_comment = 6;
+    DataStatus contact_data_status = 7;
+    string contact_data_comment = 8;
+    DataStatus account_data_status = 9;
+    string account_data_comment = 10;
+    DataStatus business_data_status = 11;
+    string business_data_comment = 12;
+    string created_at = 98;
+    optional string deleted_at = 99;
+}
+
+message PaginatedSellers {
+    uint32 total = 1;
+    uint32 limit = 2;
+    uint32 offset = 3;
+    repeated Seller results = 4;
 }
 
 message SellerStoreData {
@@ -119,16 +152,16 @@ message SellerAccountData {
 }
 
 message SellerBusinessData {
-    bool is_individual = 1; // 구분 (법인/개인)
-    string rep_name = 2; // 성명(대표자)
-    string rep_phone = 3; // 대표자 연락처
-    string biz_name = 4; // 상호(법인명)
-    string biz_reg_no = 5; // 사업자등록번호
-    string biz_category = 6; // 업태
-    string biz_address = 7; // 사업장 소재지
-    string biz_email = 8; // 대표 이메일
-    string biz_reg_image_url = 9; // 사업자등록증 이미지
-    string mail_order_reg_image_url = 10; // 통신판매신고증 이미지
+    bool is_individual = 1;
+    string rep_name = 2;
+    string rep_phone = 3;
+    string biz_name = 4;
+    string biz_reg_no = 5;
+    string biz_category = 6;
+    string biz_address = 7;
+    string biz_email = 8;
+    string biz_reg_image_url1 = 9;
+    optional string biz_reg_image_url2 = 10;
 }
 
 message CreateStaffRequest {
@@ -159,13 +192,13 @@ message UpdateSellerRequest {
     optional string password = 2;
     optional string mobile = 3;
     optional string name = 4;
-    optional Seller.DataStatus store_data_status = 5;
+    optional SellerDetail.DataStatus store_data_status = 5;
     optional string store_data_comment = 6;
-    optional Seller.DataStatus  contact_data_status = 7;
+    optional SellerDetail.DataStatus  contact_data_status = 7;
     optional string contact_data_comment = 8;
-    optional Seller.DataStatus  account_data_status = 9;
+    optional SellerDetail.DataStatus  account_data_status = 9;
     optional string account_data_comment = 10;
-    optional Seller.DataStatus business_data_status = 11;
+    optional SellerDetail.DataStatus business_data_status = 11;
     optional string business_data_comment = 12;
 }
 
@@ -211,6 +244,6 @@ message SaveSellerBusinessDataRequest {
     string biz_category = 7;
     string biz_address = 8;
     string biz_email = 9;
-    string biz_reg_image_url = 10;
-    string mail_order_reg_image_url = 11;
+    string biz_reg_image_url1 = 10;
+    optional string biz_reg_image_url2 = 11;
 }
