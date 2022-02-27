@@ -1,6 +1,9 @@
 syntax = "proto3";
 package aakcast.auth;
 
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common message definitions
@@ -43,17 +46,11 @@ service Auth {
 }
 
 message User {
-    enum Type {
-        STAFF = 0;
-        SELLER = 1;
-        TEMP = 2;
-    }
-
-    Type type = 1;
+    string type = 1;
     string id = 2;
     string email = 3;
     bool is_admin = 4;
-    string created_at = 5;
+    google.protobuf.Timestamp created_at = 5;
 }
 
 message Otp {
@@ -61,12 +58,12 @@ message Otp {
 }
 
 message FindUserRequest {
-    User.Type type = 1;
+    string type = 1;
     string email = 2;
 }
 
 message ValidateUserRequest {
-    User.Type type = 1;
+    string type = 1;
     string email = 2;
     string password = 3;
 }
@@ -74,17 +71,17 @@ message ValidateUserRequest {
 message CreateTemporaryCredentialsRequest {
     string mobile = 1;
     uint32 digits = 2;
-    optional string expires = 3;
+    google.protobuf.StringValue expires = 3;
 }
 
 message ValidateTemporaryCredentialsRequest {
     string mobile = 1;
     string code = 2;
-    optional string email = 3;
+    google.protobuf.StringValue email = 3;
 }
 
 message ResetPasswordRequest {
-    User.Type type = 1;
+    string type = 1;
     string email = 2;
     string password = 3;
 }
