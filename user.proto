@@ -37,34 +37,15 @@ message ServiceDescriptor {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// UsersService & message definitions
+// StaffsService & message definitions
 
-service Users {
-    // Staffs
-    rpc CreateStaff(user.CreateStaffRequest) returns (user.Id);
-    rpc FindStaffs(user.FindRequest) returns (user.PaginatedStaffs);
-    rpc GetStaff(user.Id) returns (user.Staff);
-    rpc UpdateStaff(user.UpdateStaffRequest) returns (google.protobuf.Empty);
-    rpc DeleteStaff(user.Id) returns (google.protobuf.Empty);
-
-    // Sellers
-    rpc CreateSeller(user.CreateSellerRequest) returns (user.Id);
-    rpc FindSellers(user.FindRequest) returns (user.PaginatedSellers);
-    rpc GetSellerDetail(user.Id) returns (user.SellerDetail);
-    rpc UpdateSeller(user.UpdateSellerRequest) returns (google.protobuf.Empty);
-    rpc SaveSellerStoreData(user.SaveSellerStoreDataRequest) returns (google.protobuf.Empty);
-    rpc SaveSellerContactData(user.SaveSellerContactDataRequest) returns (google.protobuf.Empty);
-    rpc SaveSellerAccountData(user.SaveSellerAccountDataRequest) returns (google.protobuf.Empty);
-    rpc SaveSellerBusinessData(user.SaveSellerBusinessDataRequest) returns (google.protobuf.Empty);
-    rpc GetSellerStoreData(user.Id) returns (user.SellerStoreData);
-    rpc GetSellerContactData(user.Id) returns (user.SellerContactData);
-    rpc GetSellerAccountData(user.Id) returns (user.SellerAccountData);
-    rpc GetSellerBusinessData(user.Id) returns (user.SellerBusinessData);
+service Staffs {
+    rpc Create(user.CreateStaffRequest) returns (user.Id);
+    rpc Find(user.FindRequest) returns (user.PaginatedStaffs);
+    rpc Get(user.Id) returns (user.Staff);
+    rpc Update(user.UpdateStaffRequest) returns (google.protobuf.Empty);
+    rpc Delete(user.Id) returns (google.protobuf.Empty);
 }
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Message definitions
 
 message Staff {
     string id = 1;
@@ -79,9 +60,44 @@ message Staff {
 
 message PaginatedStaffs {
     uint32 total = 1;
-    uint32 limit = 2;
-    uint32 offset = 3;
     repeated Staff results = 4;
+}
+
+message CreateStaffRequest {
+    string email = 1;
+    string password = 2;
+    string name = 3;
+    string mobile = 4;
+    google.protobuf.StringValue department = 5;
+}
+
+message UpdateStaffRequest {
+    string id = 1;
+    google.protobuf.StringValue password = 2;
+    google.protobuf.StringValue name = 3;
+    google.protobuf.StringValue mobile = 4;
+    google.protobuf.StringValue department = 5;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// SellersService & message definitions
+
+service Sellers {
+    rpc Create(user.CreateSellerRequest) returns (user.Id);
+    rpc Find(user.FindRequest) returns (user.PaginatedSellers);
+    rpc Get(user.Id) returns (user.SellerDetail);
+    rpc Update(user.UpdateSellerRequest) returns (google.protobuf.Empty);
+    rpc Delete(user.Id) returns (google.protobuf.Empty);
+
+    rpc SaveStoreData(user.SaveSellerStoreDataRequest) returns (google.protobuf.Empty);
+    rpc SaveContactData(user.SaveSellerContactDataRequest) returns (google.protobuf.Empty);
+    rpc SaveAccountData(user.SaveSellerAccountDataRequest) returns (google.protobuf.Empty);
+    rpc SaveBusinessData(user.SaveSellerBusinessDataRequest) returns (google.protobuf.Empty);
+    rpc GetStoreData(user.Id) returns (user.SellerStoreData);
+    rpc GetContactData(user.Id) returns (user.SellerContactData);
+    rpc GetAccountData(user.Id) returns (user.SellerAccountData);
+    rpc GetBusinessData(user.Id) returns (user.SellerBusinessData);
 }
 
 message Seller {
@@ -112,8 +128,6 @@ message SellerDetail {
 
 message PaginatedSellers {
     uint32 total = 1;
-    uint32 limit = 2;
-    uint32 offset = 3;
     repeated Seller results = 4;
 }
 
@@ -159,39 +173,23 @@ message SellerBusinessData {
     google.protobuf.StringValue biz_reg_image_url2 = 10;
 }
 
-message CreateStaffRequest {
-    string email = 1;
-    string password = 2;
-    string mobile = 3;
-    string name = 4;
-    google.protobuf.StringValue department = 5;
-}
-
-message UpdateStaffRequest {
-    string id = 1;
-    google.protobuf.StringValue password = 2;
-    google.protobuf.StringValue mobile = 3;
-    google.protobuf.StringValue name = 4;
-    google.protobuf.StringValue department = 5;
-}
-
 message CreateSellerRequest {
     string email = 1;
     string password = 2;
-    string mobile = 3;
-    string name = 4;
+    string name = 3;
+    string mobile = 4;
 }
 
 message UpdateSellerRequest {
     string id = 1;
     google.protobuf.StringValue password = 2;
-    google.protobuf.StringValue mobile = 3;
-    google.protobuf.StringValue name = 4;
+    google.protobuf.StringValue name = 3;
+    google.protobuf.StringValue mobile = 4;
     google.protobuf.StringValue store_data_status = 5;
     google.protobuf.StringValue store_data_comment = 6;
-    google.protobuf.StringValue  contact_data_status = 7;
+    google.protobuf.StringValue contact_data_status = 7;
     google.protobuf.StringValue contact_data_comment = 8;
-    google.protobuf.StringValue  account_data_status = 9;
+    google.protobuf.StringValue account_data_status = 9;
     google.protobuf.StringValue account_data_comment = 10;
     google.protobuf.StringValue business_data_status = 11;
     google.protobuf.StringValue business_data_comment = 12;
