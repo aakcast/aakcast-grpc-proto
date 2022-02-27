@@ -164,7 +164,7 @@ message CreateStaffRequest {
     string password = 2;
     string mobile = 3;
     string name = 4;
-    string department = 5;
+    google.protobuf.StringValue department = 5;
 }
 
 message UpdateStaffRequest {
