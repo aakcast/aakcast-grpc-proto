@@ -1,14 +1,13 @@
 syntax = "proto3";
 package aakcast.auth;
 
+import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common message definitions
-
-message Empty {}
 
 message Id {
     string id = 1;
@@ -19,8 +18,7 @@ message Id {
 // AppService & message definitions
 
 service App {
-    // Hello
-    rpc Hello(auth.Empty) returns (auth.ServiceDescriptor);
+    rpc Hello(google.protobuf.Empty) returns (auth.ServiceDescriptor);
 }
 
 message ServiceDescriptor {
@@ -30,19 +28,15 @@ message ServiceDescriptor {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// AuthService & message definitions
+// TempCredentialsService & message definitions
 
-service Auth {
-    // User
-    rpc FindUser(auth.FindUserRequest) returns (auth.User);
-    rpc ValidateUser(auth.ValidateUserRequest) returns (auth.User);
+service TempCredentials {
+    rpc Issue(auth.IssueTempCredentialsRequest) returns (auth.Otp);
+    rpc Validate(auth.ValidateTempCredentialsRequest) returns (auth.User);
+}
 
-    // OTP (temporary credentials)
-    rpc CreateTemporaryCredentials(auth.CreateTemporaryCredentialsRequest) returns (auth.Otp);
-    rpc ValidateTemporaryCredentials(auth.ValidateTemporaryCredentialsRequest) returns (auth.User);
-
-    // Password manipulation
-    rpc ResetPassword(auth.ResetPasswordRequest) returns (auth.Empty);
+message Otp {
+    string code = 1;
 }
 
 message User {
@@ -50,38 +44,17 @@ message User {
     string id = 2;
     string email = 3;
     bool is_admin = 4;
-    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp created_at = 99;
 }
 
-message Otp {
-    string code = 1;
-}
-
-message FindUserRequest {
-    string type = 1;
-    string email = 2;
-}
-
-message ValidateUserRequest {
-    string type = 1;
-    string email = 2;
-    string password = 3;
-}
-
-message CreateTemporaryCredentialsRequest {
+message IssueTempCredentialsRequest {
     string mobile = 1;
     uint32 digits = 2;
     google.protobuf.StringValue expires = 3;
 }
 
-message ValidateTemporaryCredentialsRequest {
+message ValidateTempCredentialsRequest {
     string mobile = 1;
     string code = 2;
     google.protobuf.StringValue email = 3;
-}
-
-message ResetPasswordRequest {
-    string type = 1;
-    string email = 2;
-    string password = 3;
 }
