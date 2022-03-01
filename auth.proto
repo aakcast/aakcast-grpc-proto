@@ -31,8 +31,8 @@ message ServiceDescriptor {
 // TempCredentialsService & message definitions
 
 service TempCredentials {
-    rpc Issue(auth.IssueTempCredentialsRequest) returns (auth.Otp);
-    rpc Validate(auth.ValidateTempCredentialsRequest) returns (auth.User);
+    rpc Issue(auth.IssueTempCredentialRequest) returns (auth.Otp);
+    rpc Validate(auth.ValidateTempCredentialRequest) returns (auth.User);
 }
 
 message Otp {
@@ -47,14 +47,15 @@ message User {
     google.protobuf.Timestamp created_at = 99;
 }
 
-message IssueTempCredentialsRequest {
-    string mobile = 1;
-    uint32 digits = 2;
-    google.protobuf.StringValue expires = 3;
+message IssueTempCredentialRequest {
+    string type = 1;
+    string mobile = 2;
+    uint32 digits = 3;
+    google.protobuf.StringValue expires = 4;
 }
 
-message ValidateTempCredentialsRequest {
-    string mobile = 1;
-    string code = 2;
-    google.protobuf.StringValue email = 3;
+message ValidateTempCredentialRequest {
+    string type = 1;
+    string mobile = 2;
+    string code = 3;
 }
