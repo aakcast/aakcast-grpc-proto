@@ -1,0 +1,58 @@
+syntax = "proto3";
+package aakcast.storage;
+
+import "google/protobuf/wrappers.proto";
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Common message definitions
+
+message Empty {}
+
+message Id {
+    string id = 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// AppService & message definitions
+
+service App {
+    // Hello
+    rpc Hello(storage.Empty) returns (storage.ServiceDescriptor);
+}
+
+message ServiceDescriptor {
+    string service = 1;
+    string version = 2;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// StorageService & message definitions
+
+service Storage {
+    rpc Upload(storage.UploadRequest) returns (storage.UploadResult);
+}
+
+message UploadRequest {
+    message Item {
+        string key = 1;
+        bytes buffer = 2;
+        google.protobuf.StringValue mimetype = 3;
+    }
+
+    google.protobuf.StringValue bucket = 1;
+    repeated Item files = 2;
+}
+
+message UploadResult {
+    message Item {
+        string key = 1;
+        string url = 2;
+        string mimetype = 3;
+    }
+
+    string bucket = 1;
+    repeated Item results = 2;
+}

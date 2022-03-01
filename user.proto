@@ -276,7 +276,7 @@ message SaveSellerBusinessDataRequest {
     string biz_reg_no = 6;
     string biz_category = 7;
     string biz_address = 8;
-    string biz_email = 9;
+    google.protobuf.StringValue biz_email = 9;
     string biz_reg_image_url1 = 10;
     google.protobuf.StringValue biz_reg_image_url2 = 11;
 }
