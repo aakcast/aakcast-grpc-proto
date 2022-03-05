@@ -2,8 +2,6 @@ syntax = "proto3";
 package aakcast.auth;
 
 import "google/protobuf/empty.proto";
-import "google/protobuf/timestamp.proto";
-import "google/protobuf/wrappers.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,14 +42,14 @@ message User {
     string id = 2;
     string email = 3;
     bool is_admin = 4;
-    google.protobuf.Timestamp created_at = 99;
+    string created_at = 99;
 }
 
 message IssueTempCredentialRequest {
     string type = 1;
     string mobile = 2;
     uint32 digits = 3;
-    google.protobuf.StringValue expires = 4;
+    optional string expires = 4;
 }
 
 message ValidateTempCredentialRequest {
