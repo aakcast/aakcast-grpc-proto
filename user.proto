@@ -28,8 +28,9 @@ service App {
 }
 
 message ServiceDescriptor {
-    string service = 1;
+    string name = 1;
     string version = 2;
+    string description = 3;
 }
 
 
