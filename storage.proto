@@ -1,13 +1,11 @@
 syntax = "proto3";
 package aakcast.storage;
 
-import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common message definitions
-
-message Empty {}
 
 message Id {
     string id = 1;
@@ -19,12 +17,13 @@ message Id {
 
 service App {
     // Hello
-    rpc Hello(storage.Empty) returns (storage.ServiceDescriptor);
+    rpc Hello(google.protobuf.Empty) returns (storage.ServiceDescriptor);
 }
 
 message ServiceDescriptor {
-    string service = 1;
+    string name = 1;
     string version = 2;
+    string description = 3;
 }
 
 
@@ -39,10 +38,10 @@ message UploadRequest {
     message Item {
         string key = 1;
         bytes buffer = 2;
-        google.protobuf.StringValue mimetype = 3;
+        optional string mimetype = 3;
     }
 
-    google.protobuf.StringValue bucket = 1;
+    optional string bucket = 1;
     repeated Item files = 2;
 }
 
