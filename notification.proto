@@ -1,0 +1,50 @@
+syntax = "proto3";
+package aakcast.notification;
+
+import "google/protobuf/empty.proto";
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Common message definitions
+
+message Id {
+    string id = 1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// AppService & message definitions
+
+service App {
+    rpc Hello(google.protobuf.Empty) returns (notification.ServiceDescriptor);
+}
+
+message ServiceDescriptor {
+    string name = 1;
+    string version = 2;
+    string description = 3;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// SmsService & message definitions
+
+service Sms {
+    rpc Send(notification.SendSmsRequest) returns (google.protobuf.Empty);
+}
+
+message SendSmsRequest {
+    string body = 1;
+    optional string from = 2;
+    string to = 3;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//// PushService & message definitions
+//
+//service Push {
+//    rpc Send(notification.SendPushRequest) returns (google.protobuf.Empty);
+//}
+//
+//message SendPushRequest {}
