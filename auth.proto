@@ -50,7 +50,7 @@ message IssueTempCredentialRequest {
     string type = 1;
     string mobile = 2;
     uint32 digits = 3;
-    optional string expires = 4;
+    optional uint32 age = 4;
 }
 
 message ValidateTempCredentialRequest {
