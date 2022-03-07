@@ -1,15 +1,11 @@
 syntax = "proto3";
 package aakcast.user;
 
-import "google/protobuf/empty.proto";
+import "proto/common.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common message definitions
-
-message Id {
-    string id = 1;
-}
 
 message FindRequest {
     optional uint32 limit = 1;
@@ -21,27 +17,13 @@ message FindRequest {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// AppService & message definitions
-
-service App {
-    rpc Hello(google.protobuf.Empty) returns (user.ServiceDescriptor);
-}
-
-message ServiceDescriptor {
-    string name = 1;
-    string version = 2;
-    string description = 3;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 // UsersService & message definitions
 
 service Users {
-    rpc Validate(user.ValidateUserRequest) returns (user.User);
-    rpc GetByEmail(user.GetUserByEmailRequest) returns (user.User);
-    rpc GetByMobile(user.GetUserByMobileRequest) returns (user.User);
-    rpc ResetPassword(user.ResetUserPasswordRequest) returns (google.protobuf.Empty);
+    rpc Validate(ValidateUserRequest) returns (User);
+    rpc GetByEmail(GetUserByEmailRequest) returns (User);
+    rpc GetByMobile(GetUserByMobileRequest) returns (User);
+    rpc ResetPassword(ResetUserPasswordRequest) returns (google.protobuf.Empty);
 }
 
 message User {
@@ -79,11 +61,11 @@ message ResetUserPasswordRequest {
 // StaffsService & message definitions
 
 service Staffs {
-    rpc Create(user.CreateStaffRequest) returns (user.Id);
-    rpc Find(user.FindRequest) returns (user.PaginatedStaffs);
-    rpc Get(user.Id) returns (user.Staff);
-    rpc Update(user.UpdateStaffRequest) returns (google.protobuf.Empty);
-    rpc Delete(user.Id) returns (google.protobuf.Empty);
+    rpc Create(CreateStaffRequest) returns (Id);
+    rpc Find(FindRequest) returns (PaginatedStaffs);
+    rpc Get(Id) returns (Staff);
+    rpc Update(UpdateStaffRequest) returns (google.protobuf.Empty);
+    rpc Delete(Id) returns (google.protobuf.Empty);
 }
 
 message Staff {
@@ -123,20 +105,20 @@ message UpdateStaffRequest {
 // SellersService & message definitions
 
 service Sellers {
-    rpc Create(user.CreateSellerRequest) returns (user.Id);
-    rpc Find(user.FindRequest) returns (user.PaginatedSellers);
-    rpc Get(user.Id) returns (user.SellerDetail);
-    rpc Update(user.UpdateSellerRequest) returns (google.protobuf.Empty);
-    rpc Delete(user.Id) returns (google.protobuf.Empty);
+    rpc Create(CreateSellerRequest) returns (Id);
+    rpc Find(FindRequest) returns (PaginatedSellers);
+    rpc Get(Id) returns (SellerDetail);
+    rpc Update(UpdateSellerRequest) returns (google.protobuf.Empty);
+    rpc Delete(Id) returns (google.protobuf.Empty);
 
-    rpc SaveStoreData(user.SaveSellerStoreDataRequest) returns (google.protobuf.Empty);
-    rpc SaveContactData(user.SaveSellerContactDataRequest) returns (google.protobuf.Empty);
-    rpc SaveAccountData(user.SaveSellerAccountDataRequest) returns (google.protobuf.Empty);
-    rpc SaveBusinessData(user.SaveSellerBusinessDataRequest) returns (google.protobuf.Empty);
-    rpc GetStoreData(user.Id) returns (user.SellerStoreData);
-    rpc GetContactData(user.Id) returns (user.SellerContactData);
-    rpc GetAccountData(user.Id) returns (user.SellerAccountData);
-    rpc GetBusinessData(user.Id) returns (user.SellerBusinessData);
+    rpc SaveStoreData(SaveSellerStoreDataRequest) returns (google.protobuf.Empty);
+    rpc SaveContactData(SaveSellerContactDataRequest) returns (google.protobuf.Empty);
+    rpc SaveAccountData(SaveSellerAccountDataRequest) returns (google.protobuf.Empty);
+    rpc SaveBusinessData(SaveSellerBusinessDataRequest) returns (google.protobuf.Empty);
+    rpc GetStoreData(Id) returns (SellerStoreData);
+    rpc GetContactData(Id) returns (SellerContactData);
+    rpc GetAccountData(Id) returns (SellerAccountData);
+    rpc GetBusinessData(Id) returns (SellerBusinessData);
 }
 
 message Seller {

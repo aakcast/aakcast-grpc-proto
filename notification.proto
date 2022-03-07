@@ -1,36 +1,14 @@
 syntax = "proto3";
 package aakcast.notification;
 
-import "google/protobuf/empty.proto";
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Common message definitions
-
-message Id {
-    string id = 1;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// AppService & message definitions
-
-service App {
-    rpc Hello(google.protobuf.Empty) returns (notification.ServiceDescriptor);
-}
-
-message ServiceDescriptor {
-    string name = 1;
-    string version = 2;
-    string description = 3;
-}
+import "proto/common.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // SmsService & message definitions
 
 service Sms {
-    rpc Send(notification.SendSmsRequest) returns (google.protobuf.Empty);
+    rpc Send(SendSmsRequest) returns (google.protobuf.Empty);
 }
 
 message SendSmsRequest {
@@ -40,11 +18,11 @@ message SendSmsRequest {
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////
-//// PushService & message definitions
-//
-//service Push {
-//    rpc Send(notification.SendPushRequest) returns (google.protobuf.Empty);
-//}
-//
-//message SendPushRequest {}
+////////////////////////////////////////////////////////////////////////////////
+// PushService & message definitions
+
+service Push {
+    rpc Send(SendPushRequest) returns (google.protobuf.Empty);
+}
+
+message SendPushRequest {}

@@ -1,49 +1,20 @@
 syntax = "proto3";
 package aakcast.auth;
 
-import "google/protobuf/empty.proto";
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Common message definitions
-
-message Id {
-    string id = 1;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// AppService & message definitions
-
-service App {
-    rpc Hello(google.protobuf.Empty) returns (auth.ServiceDescriptor);
-}
-
-message ServiceDescriptor {
-    string name = 1;
-    string version = 2;
-    string description = 3;
-}
+import "proto/common.proto";
+import "proto/user.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // TempCredentialsService & message definitions
 
 service TempCredentials {
-    rpc Issue(auth.IssueTempCredentialRequest) returns (auth.Otp);
-    rpc Validate(auth.ValidateTempCredentialRequest) returns (auth.User);
+    rpc Issue(IssueTempCredentialRequest) returns (Otp);
+    rpc Validate(ValidateTempCredentialRequest) returns (user.User);
 }
 
 message Otp {
     string code = 1;
-}
-
-message User {
-    string type = 1;
-    string id = 2;
-    string email = 3;
-    bool is_admin = 4;
-    string created_at = 99;
 }
 
 message IssueTempCredentialRequest {
