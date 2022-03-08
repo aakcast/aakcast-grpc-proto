@@ -1,8 +1,5 @@
 syntax = "proto3";
-package aakcast;
-
-import public "google/protobuf/empty.proto";
-
+package aakcast.common;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common message definitions
@@ -13,6 +10,8 @@ enum Stage {
     PRODUCTION = 2;
 }
 
+message Empty {}
+
 message Id {
     string id = 1;
 }
@@ -22,11 +21,11 @@ message Id {
 // AppService & message definitions
 
 service App {
-    rpc Hello(google.protobuf.Empty) returns (ServiceDescriptor);
+    rpc Hello(Empty) returns (ServiceDescriptor);
 }
 
 message ServiceDescriptor {
     string name = 1;
-    string version = 2;
-    string description = 3;
+    string stage = 2;
+    string version = 3;
 }

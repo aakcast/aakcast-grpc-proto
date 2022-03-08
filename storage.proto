@@ -1,22 +1,22 @@
 syntax = "proto3";
 package aakcast.storage;
 
-import "proto/common.proto";
+import "common.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // ObjectsService & message definitions
 
 service Objects {
-    rpc Put(PutObjectRequest) returns (ObjectUrl);
-//    rpc PutTagging(PutObjectTaggingRequest) returns (google.protobuf.Empty);
-    rpc Head(ObjectLocation) returns (google.protobuf.Empty);
-    rpc Get(ObjectLocation) returns (google.protobuf.Empty);
-//    rpc GetAttributes(GetObjectAttributesRequest) returns (google.protobuf.Empty);
-//    rpc GetTagging(ObjectLocation) returns (google.protobuf.Empty);
-    rpc Delete(ObjectLocation) returns (google.protobuf.Empty);
-//    rpc DeleteTagging(DeleteTaggingRequest) returns (google.protobuf.Empty);
-    rpc Copy(CopyObjectRequest) returns (ObjectUrl);
+    rpc Put(PutObjectRequest) returns (ObjectInfo);
+//    rpc PutTagging(PutObjectTaggingRequest) returns (Empty);
+    rpc Head(ObjectLocation) returns (ObjectInfo);
+    rpc Get(ObjectLocation) returns (ObjectData);
+//    rpc GetAttributes(GetObjectAttributesRequest) returns (Empty);
+//    rpc GetTagging(ObjectLocation) returns (Empty);
+    rpc Delete(ObjectLocation) returns (common.Empty);
+//    rpc DeleteTagging(DeleteTaggingRequest) returns (Empty);
+    rpc Copy(CopyObjectRequest) returns (ObjectInfo);
 }
 
 enum Bucket {
@@ -24,20 +24,29 @@ enum Bucket {
 //    FILE = 1;
 }
 
-message ObjectUrl {
+message ObjectInfo {
     string url = 1;
+    optional uint32 length = 2;
+    optional string mimetype = 3;
+}
+
+message ObjectData {
+    string url = 1;
+    bytes data = 2;
+    optional uint32 length = 3;
+    optional string mimetype = 4;
 }
 
 message ObjectLocation {
-    Stage stage = 1;
+    optional common.Stage stage = 1;
     Bucket bucket = 2;
     string key = 3;
 }
 
 message PutObjectRequest {
     ObjectLocation target = 1;
-    bytes buffer = 2;
-    optional string mimetype = 3;
+    optional string mimetype = 2;
+    bytes data = 3;
 }
 
 message CopyObjectRequest {

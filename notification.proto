@@ -1,14 +1,14 @@
 syntax = "proto3";
 package aakcast.notification;
 
-import "proto/common.proto";
+import "common.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // SmsService & message definitions
 
 service Sms {
-    rpc Send(SendSmsRequest) returns (google.protobuf.Empty);
+    rpc Send(SendSmsRequest) returns (common.Empty);
 }
 
 message SendSmsRequest {
@@ -22,7 +22,7 @@ message SendSmsRequest {
 // PushService & message definitions
 
 service Push {
-    rpc Send(SendPushRequest) returns (google.protobuf.Empty);
+    rpc Send(SendPushRequest) returns (common.Empty);
 }
 
 message SendPushRequest {}

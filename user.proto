@@ -1,7 +1,7 @@
 syntax = "proto3";
 package aakcast.user;
 
-import "proto/common.proto";
+import "common.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@ service Users {
     rpc Validate(ValidateUserRequest) returns (User);
     rpc GetByEmail(GetUserByEmailRequest) returns (User);
     rpc GetByMobile(GetUserByMobileRequest) returns (User);
-    rpc ResetPassword(ResetUserPasswordRequest) returns (google.protobuf.Empty);
+    rpc ResetPassword(ResetUserPasswordRequest) returns (common.Empty);
 }
 
 message User {
@@ -61,11 +61,11 @@ message ResetUserPasswordRequest {
 // StaffsService & message definitions
 
 service Staffs {
-    rpc Create(CreateStaffRequest) returns (Id);
+    rpc Create(CreateStaffRequest) returns (common.Id);
     rpc Find(FindRequest) returns (PaginatedStaffs);
-    rpc Get(Id) returns (Staff);
-    rpc Update(UpdateStaffRequest) returns (google.protobuf.Empty);
-    rpc Delete(Id) returns (google.protobuf.Empty);
+    rpc Get(common.Id) returns (Staff);
+    rpc Update(UpdateStaffRequest) returns (common.Empty);
+    rpc Delete(common.Id) returns (common.Empty);
 }
 
 message Staff {
@@ -105,20 +105,20 @@ message UpdateStaffRequest {
 // SellersService & message definitions
 
 service Sellers {
-    rpc Create(CreateSellerRequest) returns (Id);
+    rpc Create(CreateSellerRequest) returns (common.Id);
     rpc Find(FindRequest) returns (PaginatedSellers);
-    rpc Get(Id) returns (SellerDetail);
-    rpc Update(UpdateSellerRequest) returns (google.protobuf.Empty);
-    rpc Delete(Id) returns (google.protobuf.Empty);
+    rpc Get(common.Id) returns (SellerDetail);
+    rpc Update(UpdateSellerRequest) returns (common.Empty);
+    rpc Delete(common.Id) returns (common.Empty);
 
-    rpc SaveStoreData(SaveSellerStoreDataRequest) returns (google.protobuf.Empty);
-    rpc SaveContactData(SaveSellerContactDataRequest) returns (google.protobuf.Empty);
-    rpc SaveAccountData(SaveSellerAccountDataRequest) returns (google.protobuf.Empty);
-    rpc SaveBusinessData(SaveSellerBusinessDataRequest) returns (google.protobuf.Empty);
-    rpc GetStoreData(Id) returns (SellerStoreData);
-    rpc GetContactData(Id) returns (SellerContactData);
-    rpc GetAccountData(Id) returns (SellerAccountData);
-    rpc GetBusinessData(Id) returns (SellerBusinessData);
+    rpc SaveStoreData(SaveSellerStoreDataRequest) returns (common.Empty);
+    rpc SaveContactData(SaveSellerContactDataRequest) returns (common.Empty);
+    rpc SaveAccountData(SaveSellerAccountDataRequest) returns (common.Empty);
+    rpc SaveBusinessData(SaveSellerBusinessDataRequest) returns (common.Empty);
+    rpc GetStoreData(common.Id) returns (SellerStoreData);
+    rpc GetContactData(common.Id) returns (SellerContactData);
+    rpc GetAccountData(common.Id) returns (SellerAccountData);
+    rpc GetBusinessData(common.Id) returns (SellerBusinessData);
 }
 
 message Seller {

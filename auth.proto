@@ -1,8 +1,7 @@
 syntax = "proto3";
 package aakcast.auth;
 
-import "proto/common.proto";
-import "proto/user.proto";
+import "user.proto";
 
 
 ////////////////////////////////////////////////////////////////////////////////
