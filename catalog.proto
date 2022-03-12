@@ -10,38 +10,49 @@ import "common.proto";
 service Offers {
     rpc Create(CreateOfferRequest) returns (common.Id);
     rpc CreateTranslation(CreateOfferTranslationRequest) returns (common.Id);
-    rpc Find(FindOffersRequest) returns (PaginatedOffers);
     rpc Get(common.Id) returns (Offer);
     rpc Update(UpdateOfferRequest) returns (common.Empty);
     rpc UpdateTranslation(UpdateOfferTranslationRequest) returns (common.Empty);
     rpc Delete(common.Id) returns (common.Empty);
+
+    rpc View(ViewOfferRequest) returns (OfferView);
+    rpc Find(FindOffersRequest) returns (PaginatedOffers);
 }
 
 message Offer {
     message Translation {
         uint32 id = 1;
-        common.Locale language = 2;
+        string locale = 2;
         string title = 3;
         repeated Variation variations = 4;
-        string description = 5;
-    }
-    message Variation {
-        optional string name = 1;
-        uint32 price = 2;
+        optional string description = 5;
     }
 
     uint32 id = 1;
-    string seller_id = 2;
-    string image_url = 3;
-    bool is_visible = 4;
-    bool is_popular = 5;
-    repeated string languages = 6;
-    repeated Translation translations = 7;
+    string image_url = 2;
+    bool is_visible = 3;
+    bool is_popular = 4;
+    repeated Translation translations = 5;
+}
+
+message Variation {
+    optional string name = 1;
+    uint32 price = 2;
+}
+
+message OfferView {
+    uint32 id = 1;
+    string locale = 2;
+    string title = 3;
+    repeated Variation variations = 4;
+    string image_url = 5;
+    bool is_visible = 6;
+    bool is_popular = 7;
 }
 
 message PaginatedOffers {
     uint32 total = 1;
-    repeated Offer results = 2;
+    repeated OfferView results = 2;
 }
 
 message CreateOfferRequest {
@@ -53,21 +64,10 @@ message CreateOfferRequest {
 
 message CreateOfferTranslationRequest {
     uint32 offer_id = 1;
-    common.Locale language = 2;
+    string locale = 2;
     string title = 3;
-    repeated Offer.Variation variations = 4;
+    repeated Variation variations = 4;
     string description = 5;
-}
-
-message FindOffersRequest {
-    string seller_id = 1;
-    repeated string languages = 2;
-    optional uint32 limit = 3;
-    optional uint32 offset = 4;
-    optional string sort_field = 5;
-    optional bool asc = 6;
-    optional string keyword = 7;
-    optional bool popular = 8;
 }
 
 message UpdateOfferRequest {
@@ -80,8 +80,24 @@ message UpdateOfferRequest {
 message UpdateOfferTranslationRequest {
     uint32 id = 1;
     optional string title = 2;
-    repeated Offer.Variation variations = 3;
+    repeated Variation variations = 3;
     optional string description = 4;
+}
+
+message ViewOfferRequest {
+    uint32 id = 1;
+    string locale = 2;
+}
+
+message FindOffersRequest {
+    string seller_id = 1;
+    string locale = 2;
+    optional uint32 limit = 3;
+    optional uint32 offset = 4;
+    optional string sort_field = 5;
+    optional bool asc = 6;
+    optional string keyword = 7;
+    optional bool is_popular = 8;
 }
 
 
@@ -101,13 +117,9 @@ service OptionGroups {
 message OptionGroup {
     message Translation {
         uint32 id = 1;
-        common.Locale language = 2;
+        string locale = 2;
         string title = 3;
         repeated Option options = 4;
-    }
-    message Option {
-        string name = 1;
-        uint32 price = 2;
     }
 
     uint32 id = 1;
@@ -115,8 +127,13 @@ message OptionGroup {
     bool multi_select = 3;
     optional uint32 min_select = 4;
     optional uint32 max_select = 5;
-    repeated string languages = 6;
+    repeated string locale = 6;
     repeated Translation translations = 7;
+}
+
+message Option {
+    string name = 1;
+    uint32 price = 2;
 }
 
 message PaginatedOptionGroups {
@@ -133,14 +150,14 @@ message CreateOptionGroupRequest {
 
 message CreateOptionGroupTranslationRequest {
     uint32 option_group_id = 1;
-    common.Locale language = 2;
+    string locale = 2;
     string title = 3;
-    repeated OptionGroup.Option options = 4;
+    repeated Option options = 4;
 }
 
 message FindOptionGroupsRequest {
     string seller_id = 1;
-    repeated string languages = 2;
+    repeated string locale = 2;
     optional uint32 limit = 3;
     optional uint32 offset = 4;
     optional string sort_field = 5;
@@ -158,5 +175,5 @@ message UpdateOptionGroupRequest {
 message UpdateOptionGroupTranslationRequest {
     uint32 id = 1;
     optional string title = 2;
-    repeated OptionGroup.Option options = 3;
+    repeated Option options = 3;
 }

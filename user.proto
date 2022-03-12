@@ -61,11 +61,11 @@ message ResetUserPasswordRequest {
 // StaffsService & message definitions
 
 service Staffs {
-    rpc Create(CreateStaffRequest) returns (common.Id);
+    rpc Create(CreateStaffRequest) returns (common.Uuid);
     rpc Find(FindRequest) returns (PaginatedStaffs);
-    rpc Get(common.Id) returns (Staff);
+    rpc Get(common.Uuid) returns (Staff);
     rpc Update(UpdateStaffRequest) returns (common.Empty);
-    rpc Delete(common.Id) returns (common.Empty);
+    rpc Delete(common.Uuid) returns (common.Empty);
 }
 
 message Staff {
@@ -105,20 +105,20 @@ message UpdateStaffRequest {
 // SellersService & message definitions
 
 service Sellers {
-    rpc Create(CreateSellerRequest) returns (common.Id);
+    rpc Create(CreateSellerRequest) returns (common.Uuid);
     rpc Find(FindRequest) returns (PaginatedSellers);
-    rpc Get(common.Id) returns (SellerDetail);
+    rpc Get(common.Uuid) returns (SellerDetail);
     rpc Update(UpdateSellerRequest) returns (common.Empty);
-    rpc Delete(common.Id) returns (common.Empty);
+    rpc Delete(common.Uuid) returns (common.Empty);
 
     rpc SaveStoreData(SaveSellerStoreDataRequest) returns (common.Empty);
     rpc SaveContactData(SaveSellerContactDataRequest) returns (common.Empty);
     rpc SaveAccountData(SaveSellerAccountDataRequest) returns (common.Empty);
     rpc SaveBusinessData(SaveSellerBusinessDataRequest) returns (common.Empty);
-    rpc GetStoreData(common.Id) returns (SellerStoreData);
-    rpc GetContactData(common.Id) returns (SellerContactData);
-    rpc GetAccountData(common.Id) returns (SellerAccountData);
-    rpc GetBusinessData(common.Id) returns (SellerBusinessData);
+    rpc GetStoreData(common.Uuid) returns (SellerStoreData);
+    rpc GetContactData(common.Uuid) returns (SellerContactData);
+    rpc GetAccountData(common.Uuid) returns (SellerAccountData);
+    rpc GetBusinessData(common.Uuid) returns (SellerBusinessData);
 }
 
 message Seller {
