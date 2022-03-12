@@ -81,7 +81,7 @@ message Staff {
 
 message PaginatedStaffs {
     uint32 total = 1;
-    repeated Staff results = 4;
+    repeated Staff results = 2;
 }
 
 message CreateStaffRequest {
