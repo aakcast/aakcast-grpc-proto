@@ -9,95 +9,74 @@ import "common.proto";
 
 service Offers {
     rpc Create(CreateOfferRequest) returns (common.Id);
-    rpc CreateTranslation(CreateOfferTranslationRequest) returns (common.Id);
-    rpc Get(common.Id) returns (Offer);
-    rpc Update(UpdateOfferRequest) returns (common.Empty);
-    rpc UpdateTranslation(UpdateOfferTranslationRequest) returns (common.Empty);
-    rpc Delete(common.Id) returns (common.Empty);
-
-    rpc View(ViewOfferRequest) returns (OfferView);
     rpc Find(FindOffersRequest) returns (PaginatedOffers);
+    rpc Get(GetOfferRequest) returns (Offer);
+    rpc Update(UpdateOfferRequest) returns (common.Empty);
+    rpc Delete(common.Id) returns (common.Empty);
+    rpc SaveTranslation(SaveOfferTranslationRequest) returns (Offer);
 }
 
 message Offer {
-    message Translation {
-        uint32 id = 1;
-        string locale = 2;
-        string title = 3;
-        repeated Variation variations = 4;
-        optional string description = 5;
+    message Variation {
+        optional string name = 1;
+        uint32 price = 2;
     }
 
     uint32 id = 1;
-    string image_url = 2;
-    bool is_visible = 3;
-    bool is_popular = 4;
-    repeated Translation translations = 5;
-}
-
-message Variation {
-    optional string name = 1;
-    uint32 price = 2;
-}
-
-message OfferView {
-    uint32 id = 1;
-    string locale = 2;
+    string seller_id = 2;
     string title = 3;
     repeated Variation variations = 4;
-    string image_url = 5;
-    bool is_visible = 6;
-    bool is_popular = 7;
+    optional string image_url = 5;
+    optional string description = 6;
+    bool is_hidden = 7;
+    bool is_popular = 8;
 }
 
 message PaginatedOffers {
     uint32 total = 1;
-    repeated OfferView results = 2;
+    repeated Offer results = 2;
 }
 
 message CreateOfferRequest {
     string seller_id = 1;
-    string image_url = 2;
-    optional bool is_visible = 3;
-    optional bool is_popular = 4;
-}
-
-message CreateOfferTranslationRequest {
-    uint32 offer_id = 1;
-    string locale = 2;
+    string language = 2;
     string title = 3;
-    repeated Variation variations = 4;
-    string description = 5;
-}
-
-message UpdateOfferRequest {
-    uint32 id = 1;
-    optional string image_url = 2;
-    optional bool is_visible = 3;
-    optional bool is_popular = 4;
-}
-
-message UpdateOfferTranslationRequest {
-    uint32 id = 1;
-    optional string title = 2;
-    repeated Variation variations = 3;
-    optional string description = 4;
-}
-
-message ViewOfferRequest {
-    uint32 id = 1;
-    string locale = 2;
+    repeated Offer.Variation variations = 4;
+    optional string image_url = 5;
+    optional string description = 6;
+    optional bool is_hidden = 7;
+    optional bool is_popular = 8;
 }
 
 message FindOffersRequest {
     string seller_id = 1;
-    string locale = 2;
+    string language = 2;
     optional uint32 limit = 3;
     optional uint32 offset = 4;
-    optional string sort_field = 5;
-    optional bool asc = 6;
-    optional string keyword = 7;
+    optional string keyword = 5;
+    optional bool is_popular = 6;
+}
+
+message GetOfferRequest {
+    uint32 id = 1;
+    string language = 2;
+}
+
+message UpdateOfferRequest {
+    uint32 id = 1;
+    string language = 2;
+    optional string title = 3;
+    repeated Offer.Variation variations = 4;
+    optional string image_url = 5;
+    optional string description = 6;
+    optional bool is_hidden = 7;
     optional bool is_popular = 8;
+}
+
+message SaveOfferTranslationRequest {
+    uint32 id = 1;
+    string source = 2; // Source language
+    string target = 3; // Target language
 }
 
 
@@ -106,34 +85,26 @@ message FindOffersRequest {
 
 service OptionGroups {
     rpc Create(CreateOptionGroupRequest) returns (common.Id);
-    rpc CreateTranslation(CreateOptionGroupTranslationRequest) returns (common.Id);
     rpc Find(FindOptionGroupsRequest) returns (PaginatedOptionGroups);
-    rpc Get(common.Id) returns (OptionGroup);
+    rpc Get(GetOptionGroupRequest) returns (OptionGroup);
     rpc Update(UpdateOptionGroupRequest) returns (common.Empty);
-    rpc UpdateTranslation(UpdateOptionGroupTranslationRequest) returns (common.Empty);
     rpc Delete(common.Id) returns (common.Empty);
+    rpc SaveTranslation(SaveOptionGroupTranslationRequest) returns (OptionGroup);
 }
 
 message OptionGroup {
-    message Translation {
-        uint32 id = 1;
-        string locale = 2;
-        string title = 3;
-        repeated Option options = 4;
+    message Option {
+        string name = 1;
+        uint32 price = 2;
     }
 
     uint32 id = 1;
     string seller_id = 2;
-    bool multi_select = 3;
-    optional uint32 min_select = 4;
-    optional uint32 max_select = 5;
-    repeated string locale = 6;
-    repeated Translation translations = 7;
-}
-
-message Option {
-    string name = 1;
-    uint32 price = 2;
+    string title = 3;
+    repeated Option options = 4;
+    bool multi_select = 5;
+    optional uint32 min_select = 6;
+    optional uint32 max_select = 7;
 }
 
 message PaginatedOptionGroups {
@@ -143,37 +114,39 @@ message PaginatedOptionGroups {
 
 message CreateOptionGroupRequest {
     string seller_id = 1;
-    bool multi_select = 2;
-    optional uint32 min_select = 3;
-    optional uint32 max_select = 4;
-}
-
-message CreateOptionGroupTranslationRequest {
-    uint32 option_group_id = 1;
-    string locale = 2;
+    string language = 2;
     string title = 3;
-    repeated Option options = 4;
+    repeated OptionGroup.Option options = 4;
+    bool multi_select = 5;
+    optional uint32 min_select = 6;
+    optional uint32 max_select = 7;
 }
 
 message FindOptionGroupsRequest {
     string seller_id = 1;
-    repeated string locale = 2;
+    string language = 2;
     optional uint32 limit = 3;
     optional uint32 offset = 4;
-    optional string sort_field = 5;
-    optional bool asc = 6;
-    optional string keyword = 7;
+    optional string keyword = 5;
+}
+
+message GetOptionGroupRequest {
+    uint32 id = 1;
+    string language = 2;
 }
 
 message UpdateOptionGroupRequest {
     uint32 id = 1;
-    optional bool multi_select = 2;
-    optional uint32 min_select = 3;
-    optional uint32 max_select = 4;
+    string language = 2;
+    optional string title = 3;
+    repeated OptionGroup.Option options = 4;
+    optional bool multi_select = 5;
+    optional uint32 min_select = 6;
+    optional uint32 max_select = 7;
 }
 
-message UpdateOptionGroupTranslationRequest {
+message SaveOptionGroupTranslationRequest {
     uint32 id = 1;
-    optional string title = 2;
-    repeated Option options = 3;
+    string source = 2; // Source language
+    string target = 3; // Target language
 }
