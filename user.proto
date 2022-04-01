@@ -75,6 +75,7 @@ message Staff {
     string mobile = 4;
     string department = 5;
     bool is_admin = 6;
+    bool is_active = 7;
     string created_at = 98;
     optional string deleted_at = 99;
 }
